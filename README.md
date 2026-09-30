@@ -1,5 +1,7 @@
 <div align="center">
 
+<a href="https://enamel.geoza.dev"><img src="public/examples/prism.png" width="160" height="160" alt="Prism — a jewel-coloured enamel badge made in Enamel Studio"></a>
+
 # Enamel Studio
 
 **Draw wire. Pour colour. Shape something yours.**
