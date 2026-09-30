@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Enamel Studio</title>
+  <defs><clipPath id="badge"><circle cx="32" cy="32" r="27"/></clipPath></defs>
+  <circle cx="32" cy="32" r="30" fill="#14141a"/>
+  <g clip-path="url(#badge)">
+    <path fill="#f4b183" d="M5 5h54v54H5z"/>
+    <path fill="#ef7955" d="M5 36h54v12H5z"/>
+    <path fill="#a83f51" d="M5 48h54v16H5z"/>
+    <path d="M5 36h54M5 48h54" stroke="#e8b85c" stroke-width="2.5"/>
+    <circle cx="32" cy="23" r="8" fill="#ffd36e" stroke="#e8b85c" stroke-width="2.5"/>
+  </g>
+  <circle cx="32" cy="32" r="27" fill="none" stroke="#e8b85c" stroke-width="3"/>
+</svg>
