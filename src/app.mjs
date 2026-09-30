@@ -5,6 +5,7 @@ import { SHAPES } from './kernel/_shapes.mjs';
 import { samplePath } from './kernel/_cells.mjs';
 
 import { createDocument, serializeDocument, parseDocument, downloadName } from './document.mjs';
+import { PRESETS, createPreset } from './presets.mjs';
 const doc = createDocument();
 doc.strokes = doc.strokes.map(s => strokeFrom(s.points, s.closed));
 const METALS = {
@@ -669,10 +670,13 @@ $('download-json').onclick = () => {
     status('JSON downloaded. Keep this file to edit your design later.');
   } catch (error) { status(`Download failed: ${error.message}`); }
 };
+let pendingPreset = null;
 function loadDocument(next, name) {
   const editable = { ...next, strokes: next.strokes.map(s => strokeFrom(s.points, s.closed)) };
   geometry(next);
   Object.assign(doc, editable);
+  pendingPreset = null;
+  $('preset-confirm').hidden = true;
   $('name').value = name;
   selectedCell = null;
   dragging = null;
@@ -718,7 +722,49 @@ async function downloadPNG(locked) {
     $('render-error').textContent = `WebGL PNG export failed: ${error.message}`;
   } finally { renderer?.dispose(); button.disabled = false; }
 }
-$('new-design').onclick = () => { $('new-confirm').hidden = false; $('keep-editing').focus(); };
+$('presets').replaceChildren(...PRESETS.map(preset => {
+  const button = document.createElement('button');
+  button.className = 'preset-card';
+  button.type = 'button';
+  button.setAttribute('aria-label', `Load ${preset.name} preset`);
+  const image = document.createElement('img');
+  image.src = `./examples/${preset.id}.png`;
+  image.alt = '';
+  image.width = image.height = 96;
+  const title = document.createElement('strong');
+  title.textContent = preset.name;
+  const description = document.createElement('span');
+  description.textContent = preset.description;
+  button.append(image, title, description);
+  button.onclick = () => {
+    pendingPreset = preset;
+    $('new-confirm').hidden = true;
+    $('preset-message').textContent = `Replace your design with ${preset.name}? Download JSON first to keep your current work.`;
+    $('preset-confirm').hidden = false;
+    $('cancel-preset').focus();
+  };
+  return button;
+}));
+$('cancel-preset').onclick = () => {
+  const id = pendingPreset?.id;
+  pendingPreset = null;
+  $('preset-confirm').hidden = true;
+  $('presets').children[PRESETS.findIndex(p => p.id === id)]?.focus();
+};
+$('apply-preset').onclick = () => {
+  if (!pendingPreset) return;
+  try {
+    const next = createPreset(pendingPreset.id);
+    ++importGeneration;
+    $('import-json').value = '';
+    loadDocument(next.document, next.name);
+    setTool('pen');
+    $('steps').children[2].click();
+    $('steps').children[2].focus();
+    status(`Loaded ${next.name}. Select a cell to change its colour.`);
+  } catch (error) { status(`Preset failed: ${error.message}`); }
+};
+$('new-design').onclick = () => { pendingPreset = null; $('preset-confirm').hidden = true; $('new-confirm').hidden = false; $('keep-editing').focus(); };
 $('keep-editing').onclick = () => { $('new-confirm').hidden = true; $('new-design').focus(); };
 $('discard-design').onclick = () => {
   ++importGeneration;

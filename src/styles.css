@@ -60,6 +60,18 @@
   textarea { width: 100%; height: 160px; background: #0e0e13; color: var(--metal); border: 1px solid var(--line);
              border-radius: 6px; font: 11px/1.5 ui-monospace, monospace; padding: 8px; }
 
+.site-footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 24px; color: var(--dim); border-top: 1px solid var(--line); font-size: 12px; }
+.site-footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
+.site-footer a { color: var(--accent); text-underline-offset: 3px; }
+.preset-library { border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.preset-library summary { cursor: pointer; font-size: 13px; color: var(--ink); }
+.preset-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.preset-card { appearance: none; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.preset-card:hover { border-color: var(--accent); background: #282320; }
+.preset-card img { width: 76px; height: 76px; object-fit: contain; }
+.preset-card strong { font-size: 12px; }
+.preset-card span { color: var(--dim); font-size: 10px; line-height: 1.4; }
+#preset-confirm { border: 1px solid var(--accent); border-radius: 8px; padding: 10px; }
 body { height: auto; min-height: 100vh; display: block; padding-bottom: 52px; }
 .analytics-consent { position: fixed; z-index: 20; bottom: 52px; left: 16px; right: 16px; max-width: 620px; padding: 18px; border: 1px solid var(--accent); border-radius: 12px; background: var(--panel); box-shadow: 0 10px 40px #0008; }
 .analytics-consent p { margin: 0 0 12px; font-size: 13px; line-height: 1.5; }
@@ -75,6 +87,9 @@ header p { color: var(--dim); font-size: 12px; margin-bottom: 0; }
 #stage { padding: 24px; }
 #edit { width: 100%; max-width: 640px; height: auto; aspect-ratio: 1; }
 #right { width: 340px; }
+#preview-host { min-height: 312px; }
+#thumb-host { min-height: 128px; }
+#locked-host { min-height: 160px; }
 #right canvas { max-width: 100%; height: auto !important; touch-action: none; }
 button:focus-visible, input:focus-visible, canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 [hidden] { display: none !important; }

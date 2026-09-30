@@ -1,8 +1,91 @@
+<div align="center">
+
 # Enamel Studio
 
-A browser-based designer for 3D enamel badges, achievement medallions, and pins.
-Draw wire paths, colour the enclosed cells, and preview the result in metal and
-enamel. No account, cloud storage, API key, or backend required.
+**Draw wire. Pour colour. Shape something yours.**
+
+A browser-based workshop for 3D enamel badges, medallions, and pins.
+
+Start with a preset, make it yours, and take the files with you.
+
+[**Open the studio ↗**](https://enamel.geoza.dev) · [Quick guide](#quick-guide-make-a-preset-your-own) · [Examples](#presets-and-examples) · [Run locally](#run-locally)
+
+**Browser-native** · **Editable JSON** · **Transparent PNG** · **MIT licensed**
+
+Created by [**@geoza2000**](https://github.com/geoza2000) · [Follow on **X**](https://x.com/geoza2000) · [**GitHub repository**](https://github.com/geoza2000/enamel-studio)
+
+</div>
+
+---
+
+No account, cloud storage, API key, or badge-data backend required. Drawing,
+geometry, 3D rendering, imports, and exports happen in your browser.
+
+## Open the studio
+
+**Production:** [enamel.geoza.dev](https://enamel.geoza.dev)
+
+**Firebase fallback:** [enamel-studio-9c5a6.web.app](https://enamel-studio-9c5a6.web.app)
+
+Both URLs serve the same Firebase Hosting release over HTTPS.
+
+![Enamel Studio desktop editor showing an editable preset](docs/images/studio-desktop.png)
+
+## Presets and examples
+
+Open **1 Blank → Start with a preset**, choose a design, and confirm **Replace
+with preset**. Every wire, colour, shape, and material stays editable. Loading a
+preset replaces the current design; download its JSON first if you want to keep it.
+
+<p>
+  <img src="public/examples/sunrise.png" width="180" alt="Sunrise enamel badge">
+  <img src="public/examples/prism.png" width="180" alt="Prism enamel badge">
+  <img src="public/examples/summit.png" width="180" alt="Summit enamel badge">
+  <img src="public/examples/orbit.png" width="180" alt="Orbit enamel badge">
+</p>
+
+- **Sunrise** — warm colours and a gold circular frame. [Editable JSON](public/examples/sunrise.json)
+- **Prism** — jewel-coloured geometric cells in a silver hexagon. [Editable JSON](public/examples/prism.json)
+- **Summit** — a mountain motif in a gold shield. [Editable JSON](public/examples/summit.json)
+- **Orbit** — concentric colour regions in a silver rounded-square frame. [Editable JSON](public/examples/orbit.json)
+
+These are original sample designs distributed under this repository's MIT license.
+Download a linked JSON file, then select it with **Import JSON** in the studio.
+The PNG examples are flattened previews; use JSON to keep the wires editable.
+
+## Quick guide: make a preset your own
+
+1. Load **Sunrise**. The studio opens **3 Colour** with the preset ready to edit.
+2. Click a coloured region in the large **2D design canvas**, then choose a swatch
+   or **Any colour**. The 3D preview updates automatically.
+3. Open **2 Lines** to reshape wires: drag anchors or curve handles. **Move**
+   repositions a whole wire; **Circle** draws a closed loop. Finish the geometry
+   before final colouring, because changing a cell's shape changes its colour key.
+4. Open **4 Form & export** to adjust thickness, cut depth, dish, and roughness.
+5. Set **Design name** and choose **Download JSON** for an editable backup.
+6. Choose **Download earned PNG** for a transparent 1024 × 1024 image, or
+   **Download locked PNG** for the matching unearned outline. PNG exports use
+   the standard front view, not a temporarily rotated preview.
+
+![Editing preset wire paths in the Lines step](docs/images/studio-lines.png)
+
+<details>
+<summary>Mobile layout</summary>
+
+<img src="docs/images/studio-mobile.png" width="320" alt="Enamel Studio responsive mobile editor">
+
+The controls stack above the canvas on narrow screens. Scroll down to the live
+preview and PNG export buttons. A desktop pointer is best for fine curve editing.
+</details>
+
+### Example workflows
+
+- **Achievement set:** load Prism, change its cell colours for each level, and
+  export earned/locked pairs. Keep a separate JSON file for every variation.
+- **Custom pin:** load Summit, adjust the mountain's anchors in Lines, then choose
+  colours and a metal finish before exporting.
+- **Resume later:** download JSON, close the tab, reopen the studio, and import the
+  saved document. No account or upload is involved.
 
 ## Run locally
 
@@ -72,6 +155,8 @@ legacy Firebase tokens, and isolates CLI state. Set
 place a reference at `~/.config/enamel-studio/deployer.json`. Never put credentials
 in this repository. The deployer needs Firebase Hosting Admin and Service Usage
 Consumer on the target project. Analytics was linked during project setup.
+The hosted runtime audit is clean; the pinned deployment CLI currently has
+moderate transitive development-only advisories. Avoid blind `npm audit fix --force`.
 
 A plain `npm run build` remains a generic, analytics-free build. Browser tests
 use a test measurement ID and intercept consented tag loading. Review the
@@ -82,6 +167,9 @@ do not collect design content or filenames.
 
 - `src/app.mjs`: interactive editor and browser file operations
 - `src/document.mjs`: versioned JSON format and input validation
+- `src/presets.mjs`: original editable preset definitions
+- `public/examples/`: importable preset JSON and rendered PNG examples
+- `docs/images/`: real desktop/mobile screenshots used by this guide
 - `src/kernel/`: silhouette, polygon geometry, material, and WebGL rendering
 - `test/`: document and geometry tests
 - `tests/`: real-browser import/download and layout checks
@@ -98,6 +186,17 @@ in page memory unless you download them. Very complicated wire arrangements can
 be slow; the import format deliberately limits document and geometry sizes.
 Colour cells after finalizing the wire layout: reshaping a cell changes its
 geometry identity and can require assigning its colour again.
+
+## Contributing & staying in touch
+
+Found a bug or have an idea? [Open an issue](https://github.com/geoza2000/enamel-studio/issues).
+For development setup and checks, see [CONTRIBUTING.md](CONTRIBUTING.md).
+When reporting rendering problems, include your browser and a non-sensitive example
+JSON if possible—never private artwork or credentials.
+
+- Follow [@geoza2000 on X](https://x.com/geoza2000) for updates.
+- Browse [Enamel Studio on GitHub](https://github.com/geoza2000/enamel-studio),
+  fork it, or star it if you find it useful.
 
 ## Branding and license
 

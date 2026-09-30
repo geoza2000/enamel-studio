@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
+// Editor tests opt out; analytics.spec.mjs independently covers consent UI.
+test.beforeEach(async ({page}) => {
+  await page.addInitScript(() => localStorage.setItem('enamel-studio.analytics-consent.v1', 'denied'));
+});
+
 async function jsonDownload(page) {
   const event = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download JSON', exact: true }).click();
