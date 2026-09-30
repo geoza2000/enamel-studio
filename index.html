@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Enamel Studio</title><link rel="stylesheet" href="/src/styles.css"></head><body><header><div><h1>Enamel Studio</h1><p>Draw wire. Pour colour. Shape something yours.</p></div>
+<div class="file-controls"><label>Design name<input id="name" type="text" value="my-badge" maxlength="120"></label><label class="import-label">Import JSON<input id="import-json" type="file" accept=".json,application/json" aria-label="Import JSON"></label><button class="act" id="download-json">Download JSON</button><button class="act" id="new-design">New design</button></div></header><div id="new-confirm" role="group" aria-label="Confirm new design" hidden><p>Discard current design? Download JSON first to keep a copy.</p><button class="act" id="discard-design">Discard and start new</button><button class="act" id="keep-editing">Keep editing</button></div><div class="workspace"><aside>
+
+  <nav class="steps" id="steps" aria-label="Design steps"></nav>
+
+  <section data-step="0">
+    <div class="hd">Metal</div>
+    <div class="shapes" id="metals"></div>
+    <div class="hd">Blank</div>
+    <div class="shapes" id="shapes"></div>
+    <label><span>Size <b id="v-size"></b></span><input type="range" id="size" min="100" max="300" step="2"></label>
+    <label><span>Border / wire width <b id="v-wire"></b></span><input type="range" id="wire" min="2" max="16" step="0.5"></label>
+    <p class="note">Every piece of metal on the badge is this one width — the border, and every line you draw next. That is what cloisonné <em>is</em>, and the offset that produces it is a true constant-distance erosion, not a scaled-down copy of the silhouette.</p>
+  </section>
+
+  <section data-step="1">
+    <div class="hd">Lines</div>
+    <div class="row"><button class="act" id="newline">New line</button><button class="act" id="circle">Circle</button><button class="act" id="move">Move</button><button class="act" id="dropline">Delete line</button></div>
+    <label><span><span>Close the loop</span></span><input type="checkbox" id="closed"></label>
+    <p class="note">Click on the blank to lay down points. Drag a point to move it. Each point has two handles — <b style="color:#f5a524">amber</b> for the curve arriving and <b style="color: #dca44a">gold</b> for the curve leaving — and they drag independently, so a run can turn a corner as well as sweep.</p>
+    <p class="note"><b>Move</b>: grab a run anywhere along its length and drag the whole thing. Its shape does not change — every point travels together.</p>
+    <p class="note"><b>Circle</b>: click to set the centre, drag out to the radius, let go. It arrives as a closed run of four points, so every handle is still there to pull it into an oval or an egg afterwards.</p>
+    <p class="note">A line that <em>touches the border at both ends</em> divides the enamel into separate cells, and a closed run makes one on its own. That is the only way to get more than one colour.</p>
+  </section>
+
+  <section data-step="2">
+    <div class="hd">Colour</div>
+    <div class="swatches" id="swatches"></div>
+    <label><span>Any colour</span><input type="color" id="custom" value="#DCA44A"></label>
+    <p class="note">Click a cell in the view, then a colour. Cells are computed from what the wire actually encloses, so a region only appears here once it is genuinely closed.</p>
+    <p class="note">Enamel always fills half the cut. It is not a slider on purpose: level with the metal, the border stops existing.</p>
+  </section>
+
+  <section data-step="3">
+    <div class="hd">Form</div>
+    <label><span>Thickness <b id="v-thickness"></b></span><input type="range" id="thickness" min="4" max="24" step="0.25"></label>
+    <label><span>Cut depth <b id="v-cut"></b></span><input type="range" id="cut" min="0.2" max="0.9" step="0.01"></label>
+    <label><span>Dish <b id="v-dish"></b></span><input type="range" id="dish" min="0" max="40" step="0.5"></label>
+    <label><span>Metal roughness <b id="v-metalRoughness"></b></span><input type="range" id="metalRoughness" min="0.05" max="1" step="0.01"></label>
+    <p class="note">Square to the face, every milled wall is edge-on and contributes nothing — the dish is the only thing tipping one surface away from another. Flatten it and the badge reads as a sticker.</p>
+  </section>
+
+  <div id="status" role="status" aria-live="polite"></div>
+</aside>
+
+<main>
+  <div id="stage"><canvas id="edit" width="640" height="640" tabindex="0" aria-label="Design canvas"></canvas></div>
+  <div id="right">
+    <div class="hd">Live preview — drag to turn, let go to reset</div>
+    <div id="preview-host"></div><button class="act" id="download-earned">Download earned PNG</button>
+    <div class="hd">Thumbnail · 64px</div>
+    <div id="thumb-host"></div>
+    <div class="hd">Locked preview</div>
+    <div id="locked-host"></div><button class="act" id="download-locked">Download locked PNG</button>
+    <p class="note">The metalwork only, in translucent grey, with the cells empty. Built from the same geometry rather than filtered from the render above — greyscaling the earned badge would leave the cells a mid-grey where they need to read as nothing at all.</p>
+    <p class="note" id="cellinfo"></p>
+  </div>
+</main>
+
+</div><script type="module" src="/src/app.mjs"></script>
+<div id="render-error" role="alert"></div></body></html>
