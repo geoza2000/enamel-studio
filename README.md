@@ -55,6 +55,29 @@ A GitHub Actions definition is provided as `.github/check.yml.example`. To enabl
 hosted CI, move it to `.github/workflows/check.yml` and push using credentials
 with workflow-write permission. It is not active by default.
 
+## Firebase Hosting
+
+The hosted deployment is pinned to `enamel-studio-9c5a6`. `deployment.json`
+contains public project/site and Analytics identifiers, not credentials.
+
+```sh
+npm run build:hosting
+npm run deploy:hosting
+```
+
+Deployment uses the pinned local Firebase CLI, builds the site, and deploys
+**Hosting only**. It rejects extra arguments, checks project visibility, ignores
+legacy Firebase tokens, and isolates CLI state. Set
+`GOOGLE_APPLICATION_CREDENTIALS` to a protected service-account JSON file, or
+place a reference at `~/.config/enamel-studio/deployer.json`. Never put credentials
+in this repository. The deployer needs Firebase Hosting Admin and Service Usage
+Consumer on the target project. Analytics was linked during project setup.
+
+A plain `npm run build` remains a generic, analytics-free build. Browser tests
+use a test measurement ID and intercept consented tag loading. Review the
+Analytics property's enhanced-measurement settings before enabling extra events;
+do not collect design content or filenames.
+
 ## Project layout
 
 - `src/app.mjs`: interactive editor and browser file operations
@@ -66,8 +89,11 @@ with workflow-write permission. It is not active by default.
 
 ## Privacy and scope
 
-The app includes no analytics, login, remote fonts, or external asset CDN. The
-static host can still log ordinary requests for app files. Imported designs stay
+The generic build includes no analytics unless `VITE_GA_MEASUREMENT_ID` is set.
+The Firebase build includes opt-in Google Analytics: no Google tag is loaded
+until a visitor chooses **Allow analytics**. **Privacy settings** lets them
+withdraw consent. See `public/privacy.html`. There is no login, remote font, or
+external asset CDN. The static host can still log ordinary requests for app files. Imported designs stay
 in page memory unless you download them. Very complicated wire arrangements can
 be slow; the import format deliberately limits document and geometry sizes.
 Colour cells after finalizing the wire layout: reshaping a cell changes its

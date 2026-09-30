@@ -5,3 +5,5 @@ playwright-report/
 .review/
 .env*
 .DS_Store
+.firebase/
+firebase-debug*.log
